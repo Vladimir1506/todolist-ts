@@ -6,6 +6,7 @@ import {v1} from 'uuid';
 export type filterValueType = 'All' | 'Active' | 'Completed'
 
 function App() {
+    const todoListTitle: string = 'What to learn?'
     const learnTasks: TasksArrayType = [
         {id: v1(), title: 'CSS&HTML', isDone: true},
         {id: v1(), title: 'JS', isDone: true},
@@ -27,16 +28,20 @@ function App() {
         const filteredTasks = tasks.filter((task: TaskType) => task.id !== id)
         setTasks(filteredTasks)
     }
-
     const addTask = (title: string) => setTasks([{id: v1(), title, isDone: false}, ...tasks])
+    const changeTaskStatus = (id: string, isDone: boolean) => setTasks(tasks.map((task: TaskType) => task.id === id ? {
+        ...task, isDone
+    } : task))
 
     return (
         <div className="App">
-            <Todolist title="What to learn?"
+            <Todolist title={todoListTitle}
+                      filter={filter}
                       addTask={addTask}
                       tasks={getFilteredTasks(tasks, filter)}
                       changeFilter={changeFilter}
-                      removeTask={removeTask}/>
+                      removeTask={removeTask}
+                      changeTaskStatus={changeTaskStatus}/>
         </div>);
 }
 

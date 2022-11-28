@@ -6,3 +6,19 @@
 .App > div {
     margin-right: 50px;
 }
+
+.btn-active {
+    background-color: cornflowerblue;
+    border-color: cornflowerblue;
+    color: white;
+}
+
+.task-done {
+    font-weight: bold;
+    opacity: 25%;
+}
+
+.input-error {
+    border: 2px solid red;
+    outline: none;
+}
