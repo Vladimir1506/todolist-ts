@@ -1,16 +1,17 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {filterValueType} from './App';
+import {FilterValueType, TasksArrayType, TaskType} from './App';
 
-export type TasksArrayType = Array<TaskType>
-export type TaskType = { id: string, title: string, isDone: boolean }
+
 type TodolistPropsType = {
-    title: string,
-    tasks: TasksArrayType,
-    filter: filterValueType
-    removeTask: (id: string) => void,
-    changeFilter: (value: filterValueType) => void,
-    addTask: (name: string) => void
-    changeTaskStatus: (id: string, isDone: boolean) => void,
+    id: string
+    title: string
+    tasks: TasksArrayType
+    filter: FilterValueType
+    removeTask: (todoListId: string, id: string) => void
+    changeFilter: (id: string, value: FilterValueType) => void
+    addTask: (todoListId: string, name: string) => void
+    changeTaskStatus: (todoListId: string, id: string, isDone: boolean) => void
+    deleteTodolist: (todoListId: string) => void
 }
 
 export const Todolist = (props: TodolistPropsType) => {
@@ -18,8 +19,8 @@ export const Todolist = (props: TodolistPropsType) => {
     const [error, setError] = useState<boolean>(false)
 
     const tasks = props.tasks.length ? <ul>{props.tasks.map((task: TaskType) => {
-            const removeTaskHandler = () => props.removeTask(task.id)
-            const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(task.id, e.currentTarget.checked)
+            const removeTaskHandler = () => props.removeTask(props.id, task.id)
+            const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(props.id, task.id, e.currentTarget.checked)
             return (
                 <li key={task.id}>
                     <input type="checkbox"
@@ -34,7 +35,7 @@ export const Todolist = (props: TodolistPropsType) => {
 
     const addTaskHandler = () => {
         if (inputValue.trim() !== '') {
-            props.addTask(inputValue)
+            props.addTask(props.id, inputValue)
         } else setError(true)
         setInputValue('')
     }
@@ -46,9 +47,15 @@ export const Todolist = (props: TodolistPropsType) => {
     }
     const errorMessage = error &&
         <div style={{fontWeight: 'bold', color: 'red'}}>Please, enter non-empty task title</div>
-    const onClickHandlerCreator = (filter: filterValueType) => () => props.changeFilter(filter)
+    const onClickHandlerCreator = (filter: FilterValueType) => () => props.changeFilter(props.id, filter)
+    const onDeleteTodolistButtonHandler = () => props.deleteTodolist(props.id)
     return (<div>
-        <h3>{props.title}</h3>
+        <h3>{props.title}
+            <button onClick={onDeleteTodolistButtonHandler}>✖
+            </button>
+        </h3>
+
+
         <div>
             <input
                 className={error ? 'input-error' : ''}
