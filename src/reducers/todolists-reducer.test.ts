@@ -31,11 +31,10 @@ test('correct todolist should be added', () => {
         {id: todolist2, title: 'What to buy', filter: 'All'},
     ]
 
-    const endState = todoListsReducer(startState, addTodolistAC(() => {
-    }, v1(), 'NewTodoList'))
+    const endState = todoListsReducer(startState, addTodolistAC('NewTodoList'))
 
     expect(endState.length).toBe(3)
-    expect(endState[2].title).toBe('NewTodoList')
+    expect(endState[0].title).toBe('NewTodoList')
 })
 test('correct todolist should be removed', () => {
     let todolist1 = v1()
@@ -46,8 +45,7 @@ test('correct todolist should be removed', () => {
         {id: todolist2, title: 'What to buy', filter: 'All'},
     ]
 
-    const endState = todoListsReducer(startState, deleteTodolistAC(() => {
-    }, todolist1))
+    const endState = todoListsReducer(startState, deleteTodolistAC(todolist1))
 
     expect(endState.length).toBe(1)
     expect(endState[0].id).toBe(todolist2)
