@@ -1,4 +1,4 @@
-import {TasksType} from '../App';
+import {TasksType} from '../../App';
 import {v1} from 'uuid';
 import {ADD_TODOLIST, AddTodolistACType, DELETE_TODOLIST, DeleteTodolistACType} from './todo-lists-reducer';
 
@@ -9,7 +9,7 @@ const CHANGE_TASK = 'CHANGE_TASK'
 const ADD_NEW_TASK = 'ADD_NEW_TASK'
 const DELETE_TASK = 'DELETE_TASK'
 
-export const tasksReducer = (tasks: TasksType, action: tasksActionType): TasksType => {
+export const tasksReducer = (tasks: TasksType = {}, action: tasksActionType): TasksType => {
     switch (action.type) {
         case ADD_TASK: {
             return {
