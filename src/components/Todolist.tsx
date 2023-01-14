@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from 'react';
-import {FilterValueType, TasksArrayType, TaskType} from './App';
-import Input from './components/Input';
-import EditableSpan from './components/EditableSpan';
+import {FilterValueType, TasksArrayType, TaskType} from '../App';
+import Input from './Input';
+import EditableSpan from './EditableSpan';
 import {Button, Checkbox, IconButton} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
