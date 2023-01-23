@@ -1,10 +1,10 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import {Button, TextField} from '@mui/material';
 
 type InputPropsType = {
     addCallback: (title: string) => void
 }
-const Input = ({addCallback}: InputPropsType) => {
+const AddItemForm = memo(({addCallback}: InputPropsType) => {
     const [inputValue, setInputValue] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
     const addButtonHandler = () => {
@@ -46,6 +46,6 @@ const Input = ({addCallback}: InputPropsType) => {
                     }}>+</Button>
         </div>
     );
-};
+});
 
-export default Input;
+export default AddItemForm;

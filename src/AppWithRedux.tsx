@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
-import Input from './components/Input';
+import AddItemForm from './components/AddItemForm';
 import ButtonAppBar from './components/AppBar';
 import {Container, Grid, Paper} from '@mui/material';
 import {addTodolistAC} from './state/reducers/todo-lists-reducer';
@@ -14,19 +14,16 @@ export type TodoListType = {
     title: string,
     filter: FilterValueType
 }
-export type TaskType = { id: string, title: string, isDone: boolean }
+export type TaskType = { taskId: string, title: string, isDone: boolean }
 export type TasksArrayType = Array<TaskType>
+export type TasksType = { [id: string]: TasksArrayType }
 export type TodoListsType = Array<TodoListType>
 
 export const AppWithRedux = () => {
     const todoLists = useSelector<AppRootStateType, TodoListsType>(state => state.todolists)
     const dispatch = useDispatch()
 
-    const addTodolist = (todolistName: string) => {
-        const action = addTodolistAC(todolistName)
-        dispatch(action)
-    }
-
+    const addTodolist = useCallback((todolistName: string) => dispatch(addTodolistAC(todolistName)), [dispatch])
     const mappedTodoLists = todoLists.map((todoList: TodoListType) => {
             const todoListId = todoList.id
             return <Grid key={todoListId} item>
@@ -40,7 +37,7 @@ export const AppWithRedux = () => {
         <ButtonAppBar/>
         <Container fixed>
             <Grid container style={{padding: '20px'}}>
-                <Input addCallback={addTodolist}/>
+                <AddItemForm addCallback={addTodolist}/>
             </Grid>
             <Grid container spacing={5}>
                 {mappedTodoLists}

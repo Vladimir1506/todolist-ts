@@ -1,4 +1,4 @@
-import {FilterValueType, TodoListsType} from '../../App';
+import {FilterValueType, TodoListsType} from '../../AppWithRedux';
 import {v1} from 'uuid';
 
 export const ADD_TODOLIST = 'ADD_TODOLIST'
@@ -32,6 +32,7 @@ export const todoListsReducer = (todoLists: TodoListsType = [], action: Todolist
             } : todo)
         }
         default:
+            console.log("todoLists didn't changed")
             return todoLists
     }
 }
@@ -65,6 +66,6 @@ export const deleteTodolistAC = (todoListId: string) => ({
 
 type ChangeFilterACType = ReturnType<typeof changeFilterAC>
 export const changeFilterAC = (todoListId: string, filter: FilterValueType) => ({
-    type: 'CHANGE_FILTER',
+    type: CHANGE_FILTER,
     payload: {todoListId, filter}
 }) as const

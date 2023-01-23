@@ -1,4 +1,4 @@
-import {TasksType} from '../../App';
+import {TasksType} from '../../AppWithRedux';
 import {v1} from 'uuid';
 import {ADD_TODOLIST, AddTodolistACType, DELETE_TODOLIST, DeleteTodolistACType} from './todo-lists-reducer';
 
@@ -14,20 +14,22 @@ export const tasksReducer = (tasks: TasksType = {}, action: tasksActionType): Ta
         case ADD_TASK: {
             return {
                 ...tasks, [action.payload.todoListId]: [{
-                    id: v1(),
+                    taskId: v1(),
                     title: action.payload.title,
                     isDone: false
-                }, ...tasks[action.payload.todoListId]]
+                },
+                    ...tasks[action.payload.todoListId]
+                ]
             }
         }
         case REMOVE_TASK: {
-            tasks[action.payload.todoListId] = tasks[action.payload.todoListId].filter((task) => task.id !== action.payload.taskId)
+            tasks[action.payload.todoListId] = tasks[action.payload.todoListId].filter((task) => task.taskId !== action.payload.taskId)
             return {...tasks}
         }
         case UPDATE_TASK: {
             return ({
                 ...tasks,
-                [action.payload.todoListId]: tasks[action.payload.todoListId].map(task => task.id === action.payload.taskId ? {
+                [action.payload.todoListId]: tasks[action.payload.todoListId].map(task => task.taskId === action.payload.taskId ? {
                     ...task,
                     title: action.payload.newTitle
                 } : {...task})
@@ -36,7 +38,7 @@ export const tasksReducer = (tasks: TasksType = {}, action: tasksActionType): Ta
         case CHANGE_TASK: {
             return ({
                 ...tasks,
-                [action.payload.todoListId]: tasks[action.payload.todoListId].map((task) => task.id === action.payload.taskId ? {
+                [action.payload.todoListId]: tasks[action.payload.todoListId].map((task) => task.taskId === action.payload.taskId ? {
                     ...task, isDone: action.payload.isDone
                 } : task)
             })

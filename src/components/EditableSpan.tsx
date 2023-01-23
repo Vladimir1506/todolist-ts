@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import {TextField} from '@mui/material';
 import styled from 'styled-components';
 
@@ -7,7 +7,11 @@ type EditableTitlePropsType = {
     spanCallback: (title: string) => void
     disabled?: boolean
 }
-const EditableSpan = ({title, spanCallback, disabled}: EditableTitlePropsType) => {
+const Span = styled.span<{ disabled: boolean }>`
+  cursor: ${props => props.disabled ? 'default' : 'auto'};
+`
+
+const EditableSpan = memo(({title, spanCallback, disabled}: EditableTitlePropsType) => {
     const [edit, setEdit] = useState(false)
     const [value, setValue] = useState<string>(title)
 
@@ -21,12 +25,8 @@ const EditableSpan = ({title, spanCallback, disabled}: EditableTitlePropsType) =
         setValue(currentInputValue)
     }
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && changeEditHandler()
-    const Span = styled.span<{ disabled: boolean }>`
-      cursor: ${props => props.disabled ? 'default' : 'auto'};
-    `
 
-    return (
-        edit ? <span>
+    return (edit ? <span>
                 <TextField variant="outlined"
                            value={value}
                            onBlur={changeEditHandler} autoFocus
@@ -34,10 +34,9 @@ const EditableSpan = ({title, spanCallback, disabled}: EditableTitlePropsType) =
                            onKeyDown={onKeyPressHandler}
                            size={'small'}
                 />
-        </span>
-            :
+        </span> :
             <Span disabled={!!disabled} onDoubleClick={changeEditHandler}> {value} </Span>
     );
-};
+});
 
 export default EditableSpan;

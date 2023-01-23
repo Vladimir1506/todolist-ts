@@ -2,7 +2,7 @@ import React, {useReducer} from 'react';
 import './App.css';
 import {Todolist} from './components/Todolist';
 import {v1} from 'uuid';
-import Input from './components/Input';
+import AddItemForm from './components/AddItemForm';
 import ButtonAppBar from './components/AppBar';
 import {Container, Grid, Paper} from '@mui/material';
 import {addTaskAC, changeTaskStatusAC, removeTasksAC, tasksReducer, updateTasksAC} from './state/reducers/tasks-reducer';
@@ -14,16 +14,16 @@ import {
     updateTodolistAC
 } from './state/reducers/todo-lists-reducer';
 
-export type FilterValueType = 'All' | 'Active' | 'Completed'
-export type TodoListType = {
+ type FilterValueType = 'All' | 'Active' | 'Completed'
+ type TodoListType = {
     id: string,
     title: string,
     filter: FilterValueType
 }
-export type TaskType = { id: string, title: string, isDone: boolean }
-export type TasksArrayType = Array<TaskType>
-export type TasksType = { [id: string]: TasksArrayType }
-export type TodoListsType = Array<TodoListType>
+ type TaskType = { id: string, title: string, isDone: boolean }
+ type TasksArrayType = Array<TaskType>
+ type TasksType = { [id: string]: TasksArrayType }
+ type TodoListsType = Array<TodoListType>
 
 const todoListID1 = v1()
 const todoListID2 = v1()
@@ -54,59 +54,59 @@ const getFilteredTasks = (tasks: TasksArrayType, filter: FilterValueType): Tasks
 }
 
 export const App = () => {
-    const [todoLists, dispatchTodolist] = useReducer(todoListsReducer, initTodoLists)
-    const [tasks, dispatchTasks] = useReducer(tasksReducer, initTasks)
-    const addTodolist = (todolistName: string) => {
-        const action = addTodolistAC(todolistName)
-        dispatchTodolist(action)
-        dispatchTasks(action)
-    }
-    const deleteTodolist = (todoListId: string) => {
-        const action = deleteTodolistAC(todoListId)
-        dispatchTodolist(action)
-        dispatchTasks(action)
-    }
-    const updateTodoListTitle = (todoListId: string, newTitle: string) => dispatchTodolist(updateTodolistAC(todoListId, newTitle))
+    // const [todoLists, dispatchTodolist] = useReducer(todoListsReducer, initTodoLists)
+    // const [tasks, dispatchTasks] = useReducer(tasksReducer, initTasks)
+    // const addTodolist = (todolistName: string) => {
+    //     const action = addTodolistAC(todolistName)
+    //     dispatchTodolist(action)
+    //     dispatchTasks(action)
+    // }
+    // const deleteTodolist = (todoListId: string) => {
+    //     const action = deleteTodolistAC(todoListId)
+    //     dispatchTodolist(action)
+    //     dispatchTasks(action)
+    // }
+    // const updateTodoListTitle = (todoListId: string, newTitle: string) => dispatchTodolist(updateTodolistAC(todoListId, newTitle))
+    //
+    // const addTask = (todoListId: string, title: string) => dispatchTasks(addTaskAC(todoListId, title))
+    // const updateTaskTitle = (todoListId: string, taskId: string, newTitle: string) => dispatchTasks(updateTasksAC(todoListId, taskId, newTitle))
+    // const removeTask = (todoListId: string, taskId: string) => dispatchTasks(removeTasksAC(todoListId, taskId))
+    // const changeTaskStatus = (todoListId: string, taskId: string, isDone: boolean) => dispatchTasks(changeTaskStatusAC(todoListId, taskId, isDone))
+    // const changeFilter = (todoListId: string, value: FilterValueType) => dispatchTodolist(changeFilterAC(todoListId, value))
 
-    const addTask = (todoListId: string, title: string) => dispatchTasks(addTaskAC(todoListId, title))
-    const updateTaskTitle = (todoListId: string, taskId: string, newTitle: string) => dispatchTasks(updateTasksAC(todoListId, taskId, newTitle))
-    const removeTask = (todoListId: string, taskId: string) => dispatchTasks(removeTasksAC(todoListId, taskId))
-    const changeTaskStatus = (todoListId: string, taskId: string, isDone: boolean) => dispatchTasks(changeTaskStatusAC(todoListId, taskId, isDone))
-    const changeFilter = (todoListId: string, value: FilterValueType) => dispatchTodolist(changeFilterAC(todoListId, value))
-
-    const mappedTodoLists = todoLists.map((todoList: TodoListType) => {
-            const todoListId = todoList.id
-            return <Grid key={todoListId} item>
-                <Paper style={{padding: '10px'}}>
-                    <Todolist
-                        id={todoListId}
-                        title={todoList.title}
-                        filter={todoList.filter}
-                        addTask={addTask}
-                        tasks={getFilteredTasks(tasks[todoList.id], todoList.filter)}
-                        changeFilter={changeFilter}
-                        removeTask={removeTask}
-                        changeTaskStatus={changeTaskStatus}
-                        deleteTodolist={deleteTodolist}
-                        updateTaskTitle={updateTaskTitle}
-                        updateTodoListTitle={updateTodoListTitle}
-                    />
-                </Paper>
-            </Grid>
-        }
-    )
+    // const mappedTodoLists = todoLists.map((todoList: TodoListType) => {
+    //         const todoListId = todoList.id
+    //         return <Grid key={todoListId} item>
+    //             <Paper style={{padding: '10px'}}>
+    //                 <Todolist
+    //                     id={todoListId}
+    //                     title={todoList.title}
+    //                     filter={todoList.filter}
+    //                     addTask={addTask}
+    //                     tasks={getFilteredTasks(tasks[todoList.id], todoList.filter)}
+    //                     changeFilter={changeFilter}
+    //                     removeTask={removeTask}
+    //                     changeTaskStatus={changeTaskStatus}
+    //                     deleteTodolist={deleteTodolist}
+    //                     updateTaskTitle={updateTaskTitle}
+    //                     updateTodoListTitle={updateTodoListTitle}
+    //                 />
+    //             </Paper>
+    //         </Grid>
+    //     }
+    // )
 
     return (
         <div className="App">
-            <ButtonAppBar/>
-            <Container fixed>
-                <Grid container style={{padding: '20px'}}>
-                    <Input addCallback={addTodolist}/>
-                </Grid>
-                <Grid container spacing={5}>
-                    {mappedTodoLists}
-                </Grid>
-            </Container>
+            {/*<ButtonAppBar/>*/}
+            {/*<Container fixed>*/}
+            {/*    <Grid container style={{padding: '20px'}}>*/}
+            {/*        <AddItemForm addCallback={addTodolist}/>*/}
+            {/*    </Grid>*/}
+            {/*    <Grid container spacing={5}>*/}
+            {/*        {mappedTodoLists}*/}
+            {/*    </Grid>*/}
+            {/*</Container>*/}
         </div>);
 }
 

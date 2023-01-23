@@ -1,18 +1,18 @@
-import {TasksType, TodoListsType} from '../../App';
+import {TasksType, TodoListsType} from '../../AppWithRedux';
 import {addTodolistAC, deleteTodolistAC, todoListsReducer} from './todo-lists-reducer';
 import {tasksReducer} from './tasks-reducer';
 
 test('new array should be added when new todolist is added', () => {
     const startState: TasksType = {
         'todolistId1': [
-            {id: '1', title: 'CSS', isDone: false},
-            {id: '2', title: 'JS', isDone: true},
-            {id: '3', title: 'React', isDone: false}
+            {taskId: '1', title: 'CSS', isDone: false},
+            {taskId: '2', title: 'JS', isDone: true},
+            {taskId: '3', title: 'React', isDone: false}
         ],
         'todolistId2': [
-            {id: '1', title: 'bread', isDone: false},
-            {id: '2', title: 'milk', isDone: true},
-            {id: '3', title: 'tea', isDone: false}
+            {taskId: '1', title: 'bread', isDone: false},
+            {taskId: '2', title: 'milk', isDone: true},
+            {taskId: '3', title: 'tea', isDone: false}
         ]
     }
 
@@ -49,14 +49,14 @@ test('ids should be equals', () => {
 test('property with todolistId should be deleted', () => {
     const startState: TasksType = {
         'todolistId1': [
-            {id: '1', title: 'CSS', isDone: false},
-            {id: '2', title: 'JS', isDone: true},
-            {id: '3', title: 'React', isDone: false}
+            {taskId: '1', title: 'CSS', isDone: false},
+            {taskId: '2', title: 'JS', isDone: true},
+            {taskId: '3', title: 'React', isDone: false}
         ],
         'todolistId2': [
-            {id: '1', title: 'bread', isDone: false},
-            {id: '2', title: 'milk', isDone: true},
-            {id: '3', title: 'tea', isDone: false}
+            {taskId: '1', title: 'bread', isDone: false},
+            {taskId: '2', title: 'milk', isDone: true},
+            {taskId: '3', title: 'tea', isDone: false}
         ]
     }
 
