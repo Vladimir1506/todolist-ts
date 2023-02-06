@@ -37,7 +37,7 @@ export const AppWithRedux = () => {
         <ButtonAppBar/>
         <Container fixed>
             <Grid container style={{padding: '20px'}}>
-                <AddItemForm addCallback={addTodolist}/>
+                <AddItemForm addItem={addTodolist}/>
             </Grid>
             <Grid container spacing={5}>
                 {mappedTodoLists}

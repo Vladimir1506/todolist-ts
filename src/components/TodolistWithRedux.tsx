@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {useDispatch, useSelector} from 'react-redux';
 import {addTaskAC} from '../state/reducers/tasks-reducer';
 import {changeFilterAC, deleteTodolistAC, updateTodolistAC} from '../state/reducers/todo-lists-reducer';
-import Task from './Task';
+import TaskWithRedux from './TaskWithRedux';
 import {AppRootStateType} from '../state/store';
 
 type TodolistWithReduxPropsType = { todolist: TodoListType }
@@ -27,7 +27,7 @@ export const TodolistWithRedux = memo(({todolist}: TodolistWithReduxPropsType) =
     const changeFilter = useCallback((todoListId: string, value: FilterValueType) => dispatch(changeFilterAC(todoListId, value)), [dispatch])
     const mappedTasks = filteredTasksWithRedux.length ?
         <ul>{filteredTasksWithRedux.map((task: TaskType) =>
-            <Task key={task.taskId} task={task} todolistId={todolist.id}/>
+            <TaskWithRedux key={task.taskId} task={task} todolistId={todolist.id}/>
         )} </ul> :
         <span>{todolist.filter === 'All' ? 'No tasks' : `No ${todolist.filter} tasks`}</span>
 
@@ -46,7 +46,7 @@ export const TodolistWithRedux = memo(({todolist}: TodolistWithReduxPropsType) =
             </IconButton>
         </h3>
 
-        <AddItemForm addCallback={addTask}/>
+        <AddItemForm addItem={addTask}/>
         {mappedTasks}
         <div>
             <ButtonWithMemo value={'All'} variant={todolist.filter === 'All' ? 'contained' : 'outlined'}

@@ -1,14 +1,34 @@
-import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {ComponentMeta, ComponentStory} from '@storybook/react';
+import AddItemForm from '../components/AddItemForm';
+import {action} from '@storybook/addon-actions';
 import {Button, TextField} from '@mui/material';
 
-type InputPropsType = {
-    addItem: (title: string) => void
-}
-const AddItemForm = memo(({addItem}: InputPropsType) => {
+// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+export default {
+    title: 'TODOLIST/AddItemForm',
+    component: AddItemForm,
+    // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
+    argTypes: {
+        addItem: {
+            description: 'Button clicked inside form'
+        }
+    },
+} as ComponentMeta<typeof AddItemForm>;
+
+// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
+const Template: ComponentStory<typeof AddItemForm> = (args) => <AddItemForm {...args} />;
+
+export const AddItemFormStory = Template.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+AddItemFormStory.args = {
+    addItem: action('Button clicked inside form')
+};
+const Template2: ComponentStory<typeof AddItemForm> = (args) =>{
     const [inputValue, setInputValue] = useState<string>('')
-    const [error, setError] = useState<boolean>(false)
+    const [error, setError] = useState<boolean>(true)
     const addButtonHandler = () => {
-        (inputValue.trim() !== '') ? addItem(inputValue) : setError(true)
+        (inputValue.trim() !== '') ? args.addItem(inputValue) : setError(true)
         setInputValue('')
     }
 
@@ -46,6 +66,10 @@ const AddItemForm = memo(({addItem}: InputPropsType) => {
                     }}>+</Button>
         </div>
     );
-});
+};
 
-export default AddItemForm;
+export const AddItemFormErrorStory = Template2.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+AddItemFormErrorStory.args = {
+    addItem: action('Button clicked inside form')
+};

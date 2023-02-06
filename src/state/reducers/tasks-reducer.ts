@@ -36,6 +36,7 @@ export const tasksReducer = (tasks: TasksType = {}, action: tasksActionType): Ta
             })
         }
         case CHANGE_TASK: {
+            debugger
             return ({
                 ...tasks,
                 [action.payload.todoListId]: tasks[action.payload.todoListId].map((task) => task.taskId === action.payload.taskId ? {
