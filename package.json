@@ -85,5 +85,10 @@
     "puppeteer": "^19.6.1",
     "start-server-and-test": "^1.15.3",
     "webpack": "^5.75.0"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
+    ]
   }
 }
