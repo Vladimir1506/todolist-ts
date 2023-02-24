@@ -17,13 +17,11 @@ const EditableSpan = memo(({title, spanCallback, disabled}: EditableTitlePropsTy
 
     const changeEditHandler = () => {
         if (disabled) return
-        spanCallback(value)
+        if (edit) spanCallback(value)
         setEdit(!edit)
     }
-    const onChangeInputValueHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const currentInputValue = event.currentTarget.value
-        setValue(currentInputValue)
-    }
+    const onChangeInputValueHandler = (event: ChangeEvent<HTMLInputElement>) => setValue(event.currentTarget.value)
+
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && changeEditHandler()
 
     return (edit ? <span>

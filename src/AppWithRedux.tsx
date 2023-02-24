@@ -1,30 +1,30 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import AddItemForm from './components/AddItemForm';
 import ButtonAppBar from './components/AppBar';
 import {Container, Grid, Paper} from '@mui/material';
-import {addTodolistAC} from './state/reducers/todo-lists-reducer';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from './state/store';
+import {addTodolistTC, fetchTodolistsTC} from './bll/reducers/todolists-reducer/todo-lists-reducer';
+import {useAppDispatch, useAppSelector} from './bll/store';
 import {TodolistWithRedux} from './components/TodolistWithRedux';
+import {TodolistDomainType, TodolistsArrayDomainType} from './api/todolist-api';
 
-export type FilterValueType = 'All' | 'Active' | 'Completed'
-export type TodoListType = {
-    id: string,
-    title: string,
-    filter: FilterValueType
-}
-export type TaskType = { taskId: string, title: string, isDone: boolean }
-export type TasksArrayType = Array<TaskType>
-export type TasksType = { [id: string]: TasksArrayType }
-export type TodoListsType = Array<TodoListType>
+// export type TodoListType = {
+//     id: string,
+//     title: string,
+//     filter: FilterValueType
+// }
+// export type TaskType = { taskId: string, title: string, isDone: boolean }
+// export type TasksArrayType = Array<TaskType>
+// export type TodoListsType = Array<TodoListType>
 
 export const AppWithRedux = () => {
-    const todoLists = useSelector<AppRootStateType, TodoListsType>(state => state.todolists)
-    const dispatch = useDispatch()
-
-    const addTodolist = useCallback((todolistName: string) => dispatch(addTodolistAC(todolistName)), [dispatch])
-    const mappedTodoLists = todoLists.map((todoList: TodoListType) => {
+    const todoLists = useAppSelector<TodolistsArrayDomainType>(state => state.todolists)
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(fetchTodolistsTC())
+    }, [dispatch])
+    const addTodolist = useCallback((todolistName: string) => dispatch(addTodolistTC(todolistName)), [dispatch])
+    const mappedTodoLists = todoLists.map((todoList: TodolistDomainType) => {
             const todoListId = todoList.id
             return <Grid key={todoListId} item>
                 <Paper style={{padding: '10px'}}>

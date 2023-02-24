@@ -1,36 +1,52 @@
 import {instance, ResponseType} from './api-utils';
 
-export type TaskAPIType = {
+export type TaskDomainType = {
     description: string
     title: string
-    completed: boolean
     status: number
     priority: number
-    startDate: Date
-    deadline: Date
+    startDate: string
+    deadline: string
     id: string
     todoListId: string
     order: number
-    addedDate: Date
+    addedDate: string
+}
+export type TasksDomainArrayType = Array<TaskDomainType>
+export type TasksDomainType = { [taskId: string]: TasksDomainArrayType }
+
+export enum TaskStatuses {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
+}
+
+export enum TaskPriorities {
+    Low = 0,
+    Middle = 1,
+    Hi = 2,
+    Urgently = 3,
+    Later = 4
 }
 
 type getTasksAPIResponseType = {
     error: string
-    items: Array<TaskAPIType>
+    items: Array<TaskDomainType>
     totalCount: number
 }
 
 export const taskAPI = {
-    getTasks(id: string, count: number = 100, page: number = 1) {
-        return instance.get<getTasksAPIResponseType>(id + '/tasks?count=' + count + '&page' + page)
+    getTasks(todolistId: string, count: number = 100, page: number = 1) {
+        return instance.get<getTasksAPIResponseType>(todolistId + '/tasks?count=' + count + '&page' + page)
     },
-    createTask(id: string, title: string) {
-        return instance.post<ResponseType<{ item: TaskAPIType }>>(id + '/tasks', {title})
+    createTask(todolistId: string, title: string) {
+        return instance.post<ResponseType<{ item: TaskDomainType }>>(todolistId + '/tasks', {title})
     },
     deleteTask(todolistId: string, taskId: string) {
         return instance.delete<ResponseType>(todolistId + '/tasks/' + taskId)
     },
-    updateTask(todolistId: string, taskId: string, task: TaskAPIType) {
-        return instance.put<ResponseType>(todolistId + '/tasks/' + taskId, {...task})
+    updateTask(todolistId: string, taskId: string, task: TaskDomainType) {
+        return instance.put<ResponseType<{ item: TaskDomainType }>>(todolistId + '/tasks/' + taskId, {...task})
     },
 }

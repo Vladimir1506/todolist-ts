@@ -1,6 +1,6 @@
 import {ChangeEvent, useEffect, useState} from 'react';
-import {taskAPI, TaskAPIType} from '../api/task-api';
-import {todolistAPI, TodolistAPIType} from '../api/todolist-api';
+import {taskAPI, TaskDomainType} from '../api/task-api';
+import {todolistAPI, TodolistDomainType} from '../api/todolist-api';
 
 export default {
     title: 'API/TASKS'
@@ -8,7 +8,7 @@ export default {
 
 export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
-    const [todolists, setTodolists] = useState<Array<TodolistAPIType>>([])
+    const [todolists, setTodolists] = useState<Array<TodolistDomainType>>([])
     const [todolistId, setTodolistId] = useState<string>()
     useEffect(() => {
         todolistAPI.getTodolists().then(res => {
@@ -32,7 +32,7 @@ export const CreateTask = () => {
     const [state, setState] = useState<any>(null)
     const [taskName, setTaskName] = useState<string>('')
     const [todolistId, setTodolistId] = useState<string>()
-    const [todolists, setTodolists] = useState<Array<TodolistAPIType>>([])
+    const [todolists, setTodolists] = useState<Array<TodolistDomainType>>([])
     useEffect(() => {
         todolistAPI.getTodolists().then(res => {
             setTodolists(res.data)
@@ -54,9 +54,9 @@ export const CreateTask = () => {
 
 export const DeleteTask = () => {
     const [state, setState] = useState<any>(null)
-    const [todolists, setTodolists] = useState<Array<TodolistAPIType>>([])
+    const [todolists, setTodolists] = useState<Array<TodolistDomainType>>([])
     const [todolistId, setTodolistId] = useState<string>()
-    const [tasks, setTasks] = useState<Array<TaskAPIType>>([])
+    const [tasks, setTasks] = useState<Array<TaskDomainType>>([])
     const [taskId, setTaskId] = useState<string>()
     useEffect(() => {
         todolistAPI.getTodolists().then(res => {
@@ -86,9 +86,9 @@ export const DeleteTask = () => {
 
 export const UpdateTaskTitle = () => {
     const [state, setState] = useState<any>(null)
-    const [todolists, setTodolists] = useState<Array<TodolistAPIType>>([])
+    const [todolists, setTodolists] = useState<Array<TodolistDomainType>>([])
     const [todolistId, setTodolistId] = useState<string>()
-    const [tasks, setTasks] = useState<Array<TaskAPIType>>([])
+    const [tasks, setTasks] = useState<Array<TaskDomainType>>([])
     const [taskId, setTaskId] = useState<string>()
     const [newTaskTitle, setNewTaskTitle] = useState<string>()
     const task = tasks.find((t => t.id === taskId))
@@ -127,7 +127,7 @@ export const UpdateTaskTitle = () => {
     </div>
 }
 type SelectPropsType = {
-    dataArray: Array<TodolistAPIType | TaskAPIType>
+    dataArray: Array<TodolistDomainType | TaskDomainType>
     setItem: (id: string) => void
 }
 const Select = ({dataArray, setItem}: SelectPropsType) => {
