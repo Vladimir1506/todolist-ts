@@ -29,7 +29,6 @@ beforeEach(() => {
     }
 })
 
-
 test('correct task should be added to correct array', () => {
     const newTask: TaskDomainType = {
         'id': 'taskId',

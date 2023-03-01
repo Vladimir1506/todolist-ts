@@ -1,10 +1,12 @@
 import {instance, ResponseType} from './api-utils';
+import {LoadingStatuses} from '../bll/reducers/app-reducer/app-reducer';
 
 export type TodolistDomainType = {
-    'id': string,
-    'title': string,
-    'addedDate': string,
-    'order': number,
+    id: string,
+    title: string,
+    addedDate: string,
+    order: number,
+    entityStatus: LoadingStatuses
 }
 export type TodolistsArrayDomainType = Array<TodolistDomainType>
 

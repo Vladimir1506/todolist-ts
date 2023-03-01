@@ -1,11 +1,11 @@
 import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {action} from '@storybook/addon-actions';
-import TaskWithRedux from '../components/TaskWithRedux';
+import Task from '../components/Task';
 import {TaskStatuses} from '../api/task-api';
 
 export default {
     title: 'TODOLIST/Task',
-    component: TaskWithRedux,
+    component: Task,
     args: {
         // task: {taskId: 'task1', title: 'Task 1', isDone: true},
         task: {
@@ -25,9 +25,9 @@ export default {
         updateTaskTitle: action('updateTaskTitle'),
         removeTask: action('removeTask'),
     }
-} as ComponentMeta<typeof TaskWithRedux>
+} as ComponentMeta<typeof Task>
 
-const Template: ComponentStory<typeof TaskWithRedux> = (args) => <TaskWithRedux {...args}/>
+const Template: ComponentStory<typeof Task> = (args) => <Task {...args}/>
 
 export const TaskIsDoneStory = Template.bind({})
 

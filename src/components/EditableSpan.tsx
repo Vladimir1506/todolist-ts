@@ -14,10 +14,12 @@ const Span = styled.span<{ disabled: boolean }>`
 const EditableSpan = memo(({title, spanCallback, disabled}: EditableTitlePropsType) => {
     const [edit, setEdit] = useState(false)
     const [value, setValue] = useState<string>(title)
-
     const changeEditHandler = () => {
         if (disabled) return
-        if (edit) spanCallback(value)
+        if (edit) {
+            spanCallback(value)
+        }
+
         setEdit(!edit)
     }
     const onChangeInputValueHandler = (event: ChangeEvent<HTMLInputElement>) => setValue(event.currentTarget.value)
@@ -33,7 +35,7 @@ const EditableSpan = memo(({title, spanCallback, disabled}: EditableTitlePropsTy
                            size={'small'}
                 />
         </span> :
-            <Span disabled={!!disabled} onDoubleClick={changeEditHandler}> {value} </Span>
+            <Span disabled={!!disabled} onDoubleClick={changeEditHandler}> {title} </Span>
     );
 });
 

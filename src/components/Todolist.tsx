@@ -1,7 +1,8 @@
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import AddItemForm from './AddItemForm';
 import EditableSpan from './EditableSpan';
-import {Button, IconButton} from '@mui/material';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {addTaskTC, fetchTasksTC} from '../bll/reducers/tasks-reducer/tasks-reducer';
 import {
@@ -9,14 +10,15 @@ import {
     removeTodolistTC,
     updateTodoTitleTC
 } from '../bll/reducers/todolists-reducer/todo-lists-reducer';
-import TaskWithRedux from './TaskWithRedux';
+import Task from './Task';
 import {useAppDispatch, useAppSelector} from '../bll/store';
 import {TodolistDomainType} from '../api/todolist-api';
 import {TaskDomainType, TasksDomainArrayType, TaskStatuses} from '../api/task-api';
+import {LoadingStatuses} from '../bll/reducers/app-reducer/app-reducer';
 
 type TodolistWithReduxPropsType = { todolist: TodolistDomainType }
 
-export const TodolistWithRedux = memo(({todolist}: TodolistWithReduxPropsType) => {
+export const Todolist = memo(({todolist}: TodolistWithReduxPropsType) => {
     const [filter, setFilter] = useState<FilterValueType>('All')
     const tasks = useAppSelector<TasksDomainArrayType>(state => state.tasks[todolist.id])
     const dispatch = useAppDispatch()
@@ -31,7 +33,11 @@ export const TodolistWithRedux = memo(({todolist}: TodolistWithReduxPropsType) =
 
     const mappedTasks = filteredTasksWithRedux.length ?
         <ul>{filteredTasksWithRedux.map((task: TaskDomainType) =>
-            <TaskWithRedux key={task.id} task={task} todolistId={todolist.id}/>
+            <Task key={task.id} task={task} todolistId={todolist.id}
+                  disabled={
+                      task.entityStatus === LoadingStatuses.LOADING ||
+                      todolist.entityStatus === LoadingStatuses.LOADING
+                  }/>
         )} </ul> :
         <span>{filter === 'All' ? 'No tasks' : `No ${filter} tasks`}</span>
     const onAllClickHandler = () => setFilter('All')
@@ -43,13 +49,15 @@ export const TodolistWithRedux = memo(({todolist}: TodolistWithReduxPropsType) =
     const updateTodoListTitle = useCallback((newTodolistTitle: string) => dispatch(updateTodoTitleTC(todolist.id, newTodolistTitle)), [dispatch, todolist.id])
     return (<div>
         <h3>
-            <EditableSpan title={todolist.title} spanCallback={updateTodoListTitle}/>
-            <IconButton aria-label="delete" size="large" onClick={onDeleteTodolistButtonHandler}>
+            <EditableSpan title={todolist.title} spanCallback={updateTodoListTitle}
+                          disabled={todolist.entityStatus === LoadingStatuses.LOADING}/>
+            <IconButton disabled={todolist.entityStatus === LoadingStatuses.LOADING} aria-label="delete" size="large"
+                        onClick={onDeleteTodolistButtonHandler}>
                 <DeleteIcon fontSize="inherit"/>
             </IconButton>
         </h3>
 
-        <AddItemForm addItem={addTask}/>
+        <AddItemForm addItem={addTask} disabled={todolist.entityStatus === LoadingStatuses.LOADING}/>
         {mappedTasks}
         <div>
             <ButtonWithMemo value={'All'} variant={filter === 'All' ? 'contained' : 'outlined'}

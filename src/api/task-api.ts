@@ -1,4 +1,5 @@
 import {instance, ResponseType} from './api-utils';
+import {LoadingStatuses} from '../bll/reducers/app-reducer/app-reducer';
 
 export type TaskDomainType = {
     description: string
@@ -10,7 +11,8 @@ export type TaskDomainType = {
     id: string
     todoListId: string
     order: number
-    addedDate: string
+    addedDate: string,
+    entityStatus?: LoadingStatuses
 }
 export type TasksDomainArrayType = Array<TaskDomainType>
 export type TasksDomainType = { [taskId: string]: TasksDomainArrayType }

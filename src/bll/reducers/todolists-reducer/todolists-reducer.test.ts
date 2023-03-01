@@ -1,5 +1,6 @@
 import {addTodolistAC, deleteTodolistAC, todoListsReducer, updateTodolistAC} from './todo-lists-reducer';
 import {TodolistDomainType, TodolistsArrayDomainType} from '../../../api/todolist-api';
+import {LoadingStatuses} from '../app-reducer/app-reducer';
 
 let todolist1: string
 let todolist2: string
@@ -10,14 +11,20 @@ beforeEach(() => {
     todolist2 = 'todolist2'
 
     startState = [
-        {id: todolist1, title: 'What to learn', order: 0, addedDate: ''},
-        {id: todolist2, title: 'What to buy', order: 0, addedDate: ''},
+        {
+            id: todolist1, title: 'What to learn', order: 0, addedDate: '', entityStatus: LoadingStatuses.IDLE
+        },
+        {
+            id: todolist2, title: 'What to buy', order: 0, addedDate: '', entityStatus: LoadingStatuses.IDLE
+        },
     ]
 })
 
 
 test('correct todolist should be added', () => {
-    const newTodo: TodolistDomainType = {'id': 'todolistId3', 'title': 'new todolist', 'addedDate': '', 'order': 0}
+    const newTodo: TodolistDomainType = {
+        'id': 'todolistId3', 'title': 'new todolist', 'addedDate': '', 'order': 0, entityStatus: LoadingStatuses.IDLE
+    }
     const endState = todoListsReducer(startState, addTodolistAC(newTodo))
 
     expect(endState.length).toBe(3)

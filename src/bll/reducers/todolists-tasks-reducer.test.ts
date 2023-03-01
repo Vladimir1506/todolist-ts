@@ -2,6 +2,7 @@ import {addTodolistAC, deleteTodolistAC, todoListsReducer} from './todolists-red
 import {tasksReducer} from './tasks-reducer/tasks-reducer';
 import {TasksDomainType, TaskStatuses} from '../../api/task-api';
 import {TodolistDomainType, TodolistsArrayDomainType} from '../../api/todolist-api';
+import {LoadingStatuses} from './app-reducer/app-reducer';
 
 let startState: TasksDomainType
 
@@ -10,7 +11,7 @@ beforeEach(() => {
         'todolistId1': [{
             id: '1', title: 'HTML', status: TaskStatuses.New, description: '', todoListId: 'todolistId1',
             order: -8, priority: 0, startDate: '2023-02-15T21:15:33.687', deadline: '2023-02-15T21:15:33.687',
-            addedDate: '2023-02-15T20:08:10.703'
+            addedDate: '2023-02-15T20:08:10.703',
         }, {
             id: '2', title: 'JS', status: TaskStatuses.Completed, description: '', todoListId: 'todolistId1',
             order: -8, priority: 0, startDate: '2023-02-15T21:15:33.687', deadline: '2023-02-15T21:15:33.687',
@@ -33,7 +34,9 @@ beforeEach(() => {
 
 test('new array should be added when new todolist is added', () => {
 
-    const newTodo: TodolistDomainType = {'id': 'todolistId3', 'title': 'new todolist', 'addedDate': '', 'order': 0}
+    const newTodo: TodolistDomainType = {
+        'id': 'todolistId3', 'title': 'new todolist', 'addedDate': '', 'order': 0, entityStatus: LoadingStatuses.IDLE
+    }
     const action = addTodolistAC(newTodo)
 
     const endState = tasksReducer(startState, action)
@@ -51,7 +54,9 @@ test('new array should be added when new todolist is added', () => {
 test('ids should be equals', () => {
     const startTasksState: TasksDomainType = {}
     const startTodolistsState: TodolistsArrayDomainType = []
-    const newTodo: TodolistDomainType = {'id': 'todolistId3', 'title': 'new todolist', 'addedDate': '', 'order': 0}
+    const newTodo: TodolistDomainType = {
+        'id': 'todolistId3', 'title': 'new todolist', 'addedDate': '', 'order': 0, entityStatus: LoadingStatuses.IDLE
+    }
 
     const action = addTodolistAC(newTodo)
 

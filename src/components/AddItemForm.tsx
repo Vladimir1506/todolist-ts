@@ -3,8 +3,9 @@ import {Button, TextField} from '@mui/material';
 
 type InputPropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
-const AddItemForm = memo(({addItem}: InputPropsType) => {
+const AddItemForm = memo(({addItem, disabled}: InputPropsType) => {
     const [inputValue, setInputValue] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
     const addButtonHandler = () => {
@@ -24,9 +25,9 @@ const AddItemForm = memo(({addItem}: InputPropsType) => {
     return (
         <div>
             <TextField
+                disabled={disabled}
                 variant="outlined"
                 size="small"
-                // className={error ? 'input-error' : ''}
                 error={error}
                 label={'Title'}
                 helperText={errorMessage}
@@ -36,6 +37,7 @@ const AddItemForm = memo(({addItem}: InputPropsType) => {
                 onBlur={onBlurTextFieldHandler}
             />
             <Button onClick={addButtonHandler} variant="contained" size="large"
+                    disabled={disabled}
                     style={{
                         fontWeight: 'bold',
                         marginLeft: '5px',

@@ -3,25 +3,32 @@ import {AppRootStateType} from '../../bll/store';
 import {combineReducers, legacy_createStore} from 'redux';
 import {tasksReducer} from '../../bll/reducers/tasks-reducer/tasks-reducer';
 import {todoListsReducer} from '../../bll/reducers/todolists-reducer/todo-lists-reducer';
+import {appReducer, LoadingStatuses,} from '../../bll/reducers/app-reducer/app-reducer';
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
-    todolists: todoListsReducer
+    todolists: todoListsReducer,
+    app: appReducer
 })
 
 const initialGlobalState = {
+    app: {loadingStatus: LoadingStatuses.IDLE, error: null,},
     todolists: [
         {
             'id': 'todolistId1',
             'title': 'newTodolist11',
             'addedDate': '2023-02-06T09:48:11.95',
-            'order': -20
+            'order': -20,
+            entityStatus: LoadingStatuses.IDLE
+
         },
         {
             'id': 'todolistId2',
             'title': 'newTodolist12',
             'addedDate': '2023-02-06T09:48:11.95',
-            'order': -20
+            'order': -20,
+            entityStatus: LoadingStatuses.IDLE
+
         },
         // {id: 'todolistId1', title: 'What to learn', filter: 'all'},
         // {id: 'todolistId2', title: 'What to buy', filter: 'all'}
