@@ -1,6 +1,8 @@
 import {
     ADD_TODOLIST,
     AddTodolistActionType,
+    CLEAR_ALL_DATA,
+    ClearDataActionType,
     DELETE_TODOLIST,
     DeleteTodolistActionType,
     SET_TODOLISTS,
@@ -76,6 +78,8 @@ export const tasksReducer = (tasks: TasksDomainType = {}, action: TasksActionsTy
                     entityStatus: action.payload.entityStatus
                 } : task)
             }
+        case CLEAR_ALL_DATA:
+            return {}
         default:
             return tasks
     }
@@ -91,6 +95,8 @@ export type TasksActionsType =
     | DeleteTodolistActionType
     | SetTodolistActionType
     | ReturnType<typeof setTaskAC>
+    | ClearDataActionType
+
 export const setTaskAC = (todoListId: string, tasks: Array<TaskDomainType>) => ({
     type: SET_TASKS,
     payload: {

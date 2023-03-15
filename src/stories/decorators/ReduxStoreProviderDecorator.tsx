@@ -4,15 +4,17 @@ import {combineReducers, legacy_createStore} from 'redux';
 import {tasksReducer} from '../../bll/reducers/tasks-reducer/tasks-reducer';
 import {todoListsReducer} from '../../bll/reducers/todolists-reducer/todo-lists-reducer';
 import {appReducer, LoadingStatuses,} from '../../bll/reducers/app-reducer/app-reducer';
+import {authReducer} from '../../bll/reducers/auth-reducer/auth-reducer';
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
     todolists: todoListsReducer,
-    app: appReducer
+    app: appReducer,
+    auth: authReducer
 })
 
 const initialGlobalState = {
-    app: {loadingStatus: LoadingStatuses.IDLE, error: null,},
+    app: {loadingStatus: LoadingStatuses.IDLE, error: null, initialized: false},
     todolists: [
         {
             'id': 'todolistId1',
@@ -90,7 +92,8 @@ const initialGlobalState = {
             // {taskId: v1(), title: 'Milk', isDone: true},
             // {taskId: v1(), title: 'React Book', isDone: true}
         ]
-    }
+    },
+    auth: {isLoggedIn: false}
 }
 
 export const storyBookStore = legacy_createStore(rootReducer, initialGlobalState as AppRootStateType)

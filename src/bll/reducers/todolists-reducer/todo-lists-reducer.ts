@@ -2,11 +2,13 @@ import {todolistAPI, TodolistDomainType, TodolistsArrayDomainType} from '../../.
 import {AppRootStateType, AppThunk} from '../../store';
 import {LoadingStatuses, setAppStatusAC} from '../app-reducer/app-reducer';
 import {handleServerAppError, handleServerNetworkError} from '../../../utils/error-utils/utils';
+import {fetchTasksTC} from '../tasks-reducer/tasks-reducer';
 
 export const ADD_TODOLIST = 'ADD_TODOLIST'
 export const DELETE_TODOLIST = 'DELETE_TODOLIST'
 const UPDATE_TODOLIST = 'UPDATE_TODOLIST'
 const SET_TODO_ENTITY_STATUS = 'SET-TODO-ENTITY-STATUS'
+export const CLEAR_ALL_DATA = 'CLEAR-ALL-DATA'
 export const SET_TODOLISTS = 'SET-TODOLISTS'
 export type FilterValueType = 'All' | 'Active' | 'Completed'
 
@@ -37,6 +39,8 @@ export const todoListsReducer = (todoLists: TodolistsArrayDomainType = [], actio
                 ...todo,
                 entityStatus: action.payload.entityStatus
             } : todo)
+        case 'CLEAR-ALL-DATA':
+            return []
         default:
             return todoLists
     }
@@ -47,6 +51,7 @@ export type TodolistActionsType =
     | SetTodolistActionType
     | ReturnType<typeof updateTodolistAC>
     | ReturnType<typeof setTodoEntityStatusAC>
+    | ClearDataActionType
 
 export type SetTodolistActionType = ReturnType<typeof setTodolistsAC>
 export const setTodolistsAC = (todolists: Array<TodolistDomainType>) => ({
@@ -79,6 +84,8 @@ export const setTodoEntityStatusAC = (todolistId: string, entityStatus: LoadingS
     type: SET_TODO_ENTITY_STATUS,
     payload: {todolistId, entityStatus}
 }) as const
+export type ClearDataActionType = ReturnType<typeof clearDataAC>
+export const clearDataAC = () => ({type: CLEAR_ALL_DATA}) as const
 
 export const fetchTodolistsTC = (): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC(LoadingStatuses.LOADING))
@@ -86,6 +93,7 @@ export const fetchTodolistsTC = (): AppThunk => (dispatch) => {
         if (res.data) {
             dispatch(setTodolistsAC(res.data))
             dispatch(setAppStatusAC(LoadingStatuses.SUCCEEDED))
+            res.data.forEach(todo => dispatch(fetchTasksTC(todo.id)))
         } else {
             handleServerAppError(res.data, dispatch)
         }

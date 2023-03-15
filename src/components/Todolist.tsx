@@ -1,10 +1,10 @@
-import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {memo, useCallback, useMemo, useState} from 'react';
 import AddItemForm from './AddItemForm';
 import EditableSpan from './EditableSpan';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {addTaskTC, fetchTasksTC} from '../bll/reducers/tasks-reducer/tasks-reducer';
+import {addTaskTC} from '../bll/reducers/tasks-reducer/tasks-reducer';
 import {
     FilterValueType,
     removeTodolistTC,
@@ -22,9 +22,6 @@ export const Todolist = memo(({todolist}: TodolistWithReduxPropsType) => {
     const [filter, setFilter] = useState<FilterValueType>('All')
     const tasks = useAppSelector<TasksDomainArrayType>(state => state.tasks[todolist.id])
     const dispatch = useAppDispatch()
-    useEffect(() => {
-        dispatch(fetchTasksTC(todolist.id))
-    }, [dispatch, todolist.id])
     let filteredTasksWithRedux = useMemo(() => {
         if (filter === 'Active') return tasks.filter((task: TaskDomainType) => task.status === TaskStatuses.New)
         if (filter === 'Completed') return tasks.filter((task: TaskDomainType) => task.status === TaskStatuses.Completed)
